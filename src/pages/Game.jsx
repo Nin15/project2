@@ -64,7 +64,7 @@ export default function Game() {
           const updated = [...prev, ActiveButtons[0]];
           return updated;
         });
-      }, 50);
+      }, 1);
     }
 
     console.log("ActiveButtons:", ActiveButtons);
