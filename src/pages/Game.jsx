@@ -65,15 +65,14 @@ export default function Game() {
   return (
     <div className="">
       {theme === "numbers" && (
-        <div style={{
-          fontFamily: "Atkinson Hyperlegible"
-        }} className="font-[Atkinson Hyperlegible] flex flex-col w-[100%] h-[100dvh] items-center justify-around ">
+        <div
+          style={{
+            fontFamily: "Atkinson Hyperlegible",
+          }}
+          className=" flex flex-col w-[100%] h-[100dvh] items-center justify-around "
+        >
           <div className="flex  top-[67px] justify-around items-center w-[100%] ">
-            <img
-              className=" color-[#152938] "
-              src="/memory (1).png"
-              alt=""
-            />
+            <img className=" color-[#152938] " src="/memory (1).png" alt="" />
             <div className="flex gap-[10px] ">
               <button className="bg-amber-400 text-amber-50 w-[108px] h-[38px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition">
                 Restart
@@ -83,7 +82,7 @@ export default function Game() {
               </button>
             </div>
           </div>
-          <div className=" flex flex-wrap w-[450px] gap-[20px] items-center justify-center">
+          <div className="text-2xl flex flex-wrap w-[450px] gap-[20px] items-center justify-center">
             {buttonNames.map((el, index) => (
               <div className="">
                 <button
@@ -92,8 +91,9 @@ export default function Game() {
                     flipped(buttons[index]);
                   }}
                   className={
-                    guessed.includes(el) ||
-                    ActiveButton.includes(buttons[index])
+                    guessed.includes(el)
+                      ? "bg-amber-400 text-blue-50 w-[78px] h-[78px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition"
+                      : ActiveButton.includes(buttons[index])
                       ? "bg-[#BCCED9] text-blue-50 w-[78px] h-[78px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition"
                       : "bg-[#304859] text-[#304859] w-[78px] h-[78px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition"
                   }
