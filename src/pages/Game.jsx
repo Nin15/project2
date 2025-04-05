@@ -11,7 +11,7 @@ export default function Game() {
   const buttons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
   const buttonNames = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
   const [thegrid, setthegrid] = useState([]);
-
+const navigate = useNavigate()
   const [restart, setRestart] = useState(0);
 
   useEffect(() => {
@@ -94,7 +94,9 @@ export default function Game() {
               }} className="bg-amber-400 text-amber-50 w-[108px] h-[38px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition">
                 Restart
               </button>
-              <button className="bg-[#BCCED9] text-[#304859] w-[108px] h-[38px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition">
+              <button onClick={() =>{
+                navigate("/")
+              }}className="bg-[#BCCED9] text-[#304859] w-[108px] h-[38px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition">
                 New Game
               </button>
             </div>
