@@ -3,13 +3,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export default function Game() {
-  const [point, setPoint] = useState(0);
+  const [point, setPoint] = useState(-1);
   const [ActiveButtons, setActiveButtons] = useState([]);
   const [guessed, setGuessed] = useState([]);
   const [ActiveButton, setActiveButton] = useState([]);
   const { theme, mode, grid } = useParams();
   const buttons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
   const buttonNames = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
+  const [thegrid, setthegrid] = useState([]);
+
+  const [restart, setRestart] = useState(0);
+
+  useEffect(() => {
+    setthegrid(() => {
+      const finalGrid = buttonNames.sort(() => Math.random() - 0.5);
+      console.log("grid", finalGrid);
+      return finalGrid;
+    });
+  }, [restart]);
 
   const pointFunction = (buttonName) => {
     setActiveButtons((prev) => {
@@ -53,7 +64,7 @@ export default function Game() {
           const updated = [...prev, ActiveButtons[0]];
           return updated;
         });
-      }, 1000);
+      }, 50);
     }
 
     console.log("ActiveButtons:", ActiveButtons);
@@ -74,7 +85,13 @@ export default function Game() {
           <div className="flex  top-[67px] justify-around items-center w-[100%] ">
             <img className=" color-[#152938] " src="/memory (1).png" alt="" />
             <div className="flex gap-[10px] ">
-              <button className="bg-amber-400 text-amber-50 w-[108px] h-[38px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition">
+              <button onClick={() => {
+                setActiveButton([])
+                setActiveButtons([])
+                setRestart(restart + 1)
+                setPoint(-1)
+                setGuessed([])
+              }} className="bg-amber-400 text-amber-50 w-[108px] h-[38px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition">
                 Restart
               </button>
               <button className="bg-[#BCCED9] text-[#304859] w-[108px] h-[38px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition">
@@ -83,7 +100,7 @@ export default function Game() {
             </div>
           </div>
           <div className="text-2xl flex flex-wrap w-[450px] gap-[20px] items-center justify-center">
-            {buttonNames.map((el, index) => (
+            {thegrid.map((el, index) => (
               <div className="">
                 <button
                   onClick={(event) => {
