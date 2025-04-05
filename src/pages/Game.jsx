@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export default function Game() {
-  const [point, setPoint] = useState(-1);
+  const [point, setPoint] = useState(0);
   const [ActiveButtons, setActiveButtons] = useState([]);
   const [guessed, setGuessed] = useState([]);
   const [ActiveButton, setActiveButton] = useState([]);
@@ -11,8 +11,20 @@ export default function Game() {
   const buttons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
   const buttonNames = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
   const [thegrid, setthegrid] = useState([]);
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const [restart, setRestart] = useState(0);
+  const [ID, setID] = useState([]);
+
+  const CheckIfSameButton = (id) => {
+    setID((prev) => {
+      if (prev.length < 2) {
+        const updated = [...prev, id];
+        return updated;
+      } else {
+        return [...prev.slice(1), id];
+      }
+    });
+  };
 
   useEffect(() => {
     setthegrid(() => {
@@ -58,7 +70,7 @@ const navigate = useNavigate()
   }, [ActiveButton]);
 
   useEffect(() => {
-    if (ActiveButtons[0] === ActiveButtons[1]) {
+    if (ActiveButtons[0] === ActiveButtons[1] && ID[1] !== ID[0]) {
       setTimeout(() => {
         setGuessed((prev) => {
           const updated = [...prev, ActiveButtons[0]];
@@ -66,7 +78,9 @@ const navigate = useNavigate()
         });
       }, 1);
     }
-
+    if (ID[1] === ID[0]) {
+      setPoint(point)
+    }
     console.log("ActiveButtons:", ActiveButtons);
   }, [ActiveButtons]);
 
@@ -85,18 +99,29 @@ const navigate = useNavigate()
           <div className="flex  top-[67px] justify-around items-center w-[100%] ">
             <img className=" color-[#152938] " src="/memory (1).png" alt="" />
             <div className="flex gap-[10px] ">
-              <button onClick={() => {
-                setActiveButton([])
-                setActiveButtons([])
-                setRestart(restart + 1)
-                setPoint(-1)
-                setGuessed([])
-              }} className="bg-amber-400 text-amber-50 w-[108px] h-[38px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition">
+              <button
+                onClick={() => {
+                  setActiveButton([]);
+                  setActiveButtons([]);
+                  setRestart(restart + 1);
+                  setPoint(-1);
+                  setGuessed([]);
+                }}
+                className="bg-amber-400 text-amber-50 w-[108px] h-[38px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition"
+              >
                 Restart
               </button>
-              <button onClick={() =>{
-                navigate("/")
-              }}className="bg-[#BCCED9] text-[#304859] w-[108px] h-[38px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition">
+              <button
+                onClick={() => {
+                  navigate("/");
+                  setActiveButton([]);
+                  setActiveButtons([]);
+                  setRestart(restart + 1);
+                  setPoint(-1);
+                  setGuessed([]);
+                }}
+                className="bg-[#BCCED9] text-[#304859] w-[108px] h-[38px] rounded-full font-bold  cursor-pointer hover:scale-[1.05] transition"
+              >
                 New Game
               </button>
             </div>
@@ -108,6 +133,7 @@ const navigate = useNavigate()
                   onClick={(event) => {
                     pointFunction(el);
                     flipped(buttons[index]);
+                    CheckIfSameButton(event.target.id);
                   }}
                   className={
                     guessed.includes(el)
